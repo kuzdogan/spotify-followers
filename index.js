@@ -10,25 +10,7 @@ connectToServer(DB_URL)
 
 checkUser(PROFILE_ID)
     .then(user => {
-        if (user) {
-            let previousFollowerIds = user.followers;
-            return getAccessToken()
-                .then(accessToken => {
-                    console.log(`Got access token for check difference`, accessToken)
-                    return requestFollowers(accessToken, PROFILE_ID)
-                })
-                .then(currentFollowers => {
-                    fetchFollowers(previousFollowerIds)
-                        .then(previousFollowers => {
-                            let currentFollowerNames = currentFollowers.map(currentFollower => currentFollower.name);
-                            let previousFollowerNames = previousFollowers.map(previousFollower => previousFollower.name);
-                            let newFollowers = currentFollowerNames.filter(x => !previousFollowerNames.includes(x));
-                            let usersToLeaveFollowing = previousFollowerNames.filter(x => !currentFollowerNames.includes(x));
-                            let followersDiff = new FollowersDiff(newFollowers, usersToLeaveFollowing);
-                            console.log("Difference:", followersDiff)
-                        })
-                })
-        }
+        user && checkFollowerDifference(user);
     });
 
 function checkUser(userId) {
@@ -47,6 +29,26 @@ function checkUser(userId) {
                 console.log('Creating new user')
                 createUser(userId)
             }
+        })
+}
+
+function checkFollowerDifference(user) {
+    let previousFollowerIds = user.followers;
+    return getAccessToken()
+        .then(accessToken => {
+            console.log(`Got access token for check difference`, accessToken)
+            return requestFollowers(accessToken, PROFILE_ID)
+        })
+        .then(currentFollowers => {
+            fetchFollowers(previousFollowerIds)
+                .then(previousFollowers => {
+                    let currentFollowerNames = currentFollowers.map(currentFollower => currentFollower.name);
+                    let previousFollowerNames = previousFollowers.map(previousFollower => previousFollower.name);
+                    let newFollowers = currentFollowerNames.filter(x => !previousFollowerNames.includes(x));
+                    let usersToLeaveFollowing = previousFollowerNames.filter(x => !currentFollowerNames.includes(x));
+                    let followersDiff = new FollowersDiff(newFollowers, usersToLeaveFollowing);
+                    console.log("Difference:", followersDiff)
+                })
         })
 }
 
