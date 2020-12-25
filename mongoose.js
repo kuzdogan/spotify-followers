@@ -1,27 +1,17 @@
 const mongoose = require('mongoose');
 
-var _db;
+exports.connectToServer = (URI) => {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(URI, { useUnifiedTopology: true, useNewUrlParser: true });
 
-exports.connectToServer = (URL) => {
+    mongoose.connection.once("open", () => {
+      console.log("MongoDB database connection established successfully");
+      resolve(mongoose.connection)
+    });
 
-  mongoose.set('useFindAndModify', false);
-  mongoose.connect(URL, {}, (err) => {
-    if (err)
+    mongoose.connection.on("error", (err) => {
       console.error(err);
-    else {
-      _db = mongoose.connection;
-      _db.on('error', () => {
-        console.error('> error occurred from the database');
-      });
-      _db.once('open', () => {
-        console.log('> successfully opened the database');
-      });
-      return _db;
-    }
-  });
-
-};
-
-exports.getDb = () => {
-  return _db;
+      reject(err);
+    })
+  })
 };
