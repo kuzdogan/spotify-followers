@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const FollowerSchema = new mongoose.Schema({
-  id: String,
+  uri: String,
   name: String,
   imageURL: String,
   followersCount: Number,
