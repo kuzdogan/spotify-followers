@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/followers', followersRoutes);
+app.use('/followersDifference', followersRoutes);
 
 app.listen(port, () => {
   console.log('Express Listening at http://localhost:' + port);

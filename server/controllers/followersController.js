@@ -4,7 +4,7 @@ const Follower = require('../models/Follower');
 
 const TOKEN_URL = "https://open.spotify.com/get_access_token?reason=transport&productType=web_player";
 
-// GET /followers/:userId
+// GET /followers/:userId?name=asda
 exports.getFollowersUnfollowers = function (req, res) {
     const userId = req.params.userId
     if (!userId)
