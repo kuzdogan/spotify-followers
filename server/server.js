@@ -6,7 +6,7 @@ const followersRoutes = require('./routes/followersRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const DB_URI = "mongodb://localhost:27017/test";
+const DB_URI = "mongodb://127.0.0.1:27017/test";
 
 
 
@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/followersDifference', followersRoutes);
+app.use('/user', followersRoutes);
 
 app.listen(port, () => {
   console.log('Express Listening at http://localhost:' + port);
