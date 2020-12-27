@@ -36,7 +36,7 @@ exports.getFollowersUnfollowers = function (req, res) {
 
 }
 
-// GET /user/:userId
+// GET /user/:userId/followers
 exports.getFollowers = function (req, res) {
     console.log('Get followers called');
     const userId = req.params.userId;
@@ -44,7 +44,7 @@ exports.getFollowers = function (req, res) {
         return res.status(400).send('Bad Request');
     return getFollowers(userId)
         .then(followers => {
-            res.status(200).json(followers);
+            res.status(200).json({followers: followers});
         });
 }
  
