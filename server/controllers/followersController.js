@@ -36,7 +36,7 @@ exports.getFollowersUnfollowers = function (req, res) {
 
 }
 
-// GET /user/:userId
+// GET /user/:userId/followers
 exports.getFollowers = function (req, res) {
     console.log('Get followers called');
     const userId = req.params.userId;
