@@ -4,7 +4,7 @@ const Follower = require('../models/Follower');
 
 const TOKEN_URL = "https://open.spotify.com/get_access_token?reason=transport&productType=web_player";
 
-// GET /followers/:userId?name=asda
+// GET /user/:userId/follower-unfollower-diff
 exports.getFollowersUnfollowers = function (req, res) {
     const userId = req.params.userId
     if (!userId)
@@ -36,7 +36,18 @@ exports.getFollowersUnfollowers = function (req, res) {
 
 }
 
-
+// GET /user/:userId
+exports.getFollowers = function (req, res) {
+    console.log('Get followers called');
+    const userId = req.params.userId;
+    if (!userId)
+        return res.status(400).send('Bad Request');
+    return getFollowers(userId)
+        .then(followers => {
+            res.status(200).json(followers);
+        });
+}
+ 
 
 /**
  * Function to check if user exists on the db. 
@@ -156,4 +167,16 @@ async function updateFollowersOfUser(newFollowers, unfollowers, user) {
     })
     console.log("Cleaning unfollower refs")
     await User.updateOne({ _id: user._id }, { $pull: { followers: { $in: unfollowerIds } } });
+}
+
+/**
+ * Function to get followers
+ * 
+ * @returns {Promise} resolving to the followers of user.
+ * @param {String} userId
+ */
+async function getFollowers(userId){
+    const accessToken = await getAccessToken();
+    const currentFollowers = await requestFollowers(accessToken, userId);
+    return currentFollowers;
 }
