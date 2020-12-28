@@ -45,6 +45,9 @@ exports.getFollowers = function (req, res) {
     return getFollowers(userId)
         .then(followers => {
             res.status(200).json({followers: followers});
+        })
+        .catch(err => {
+            res.status(404).json({followers: [], message: err});
         });
 }
  
