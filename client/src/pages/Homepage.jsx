@@ -37,15 +37,25 @@ export default class Homepage extends React.Component {
 
     render() {
         if (this.state.isLoaded) {
-            return (
-                <ul>
-                    {this.state.followers.map(follower => (
-                        <li key={follower.id}>
-                            <Follower user={follower}/>
-                        </li>
-                    ))}
-                </ul>
-            );
+            if(this.state.followers.length >0){
+                return (
+                    <ul>
+                        {this.state.followers.map(follower => (
+                            <li key={follower.id}>
+                                <Follower user={follower}/>
+                            </li>
+                        ))}
+                    </ul>
+                );
+            }else{
+                return (
+                    <div>
+                        <h2>
+                            No follower has been found :(
+                        </h2>
+                    </div>
+                )
+            }
         }
         return (
             <div>
