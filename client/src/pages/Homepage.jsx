@@ -1,6 +1,5 @@
 import React from 'react';
-
-const TOKEN_URL = "https://open.spotify.com/get_access_token?reason=transport&productType=web_player";
+import Follower from "../components/Follower";
 
 export default class Homepage extends React.Component {
 
@@ -9,17 +8,12 @@ export default class Homepage extends React.Component {
         this.state = {
             isLoaded: false,
             followers: [],
+            userId: ''
         }
-        this.userId = 11101586339 // TODO: Dynamically handle userId inside state
     }
 
-    handleIncrement = () => {
-        this.setState(prevState => ({count: prevState.count + 1}))
-    }
-
-
-    componentDidMount() {
-        fetch(`http://localhost:3000/user/${this.userId}/followers`)
+    handleFollowers = () => {
+        fetch(`http://localhost:3000/user/${this.state.userId}/followers`)
             .then(response => response.json())
             .then(data => {
                     this.setState({
@@ -33,32 +27,37 @@ export default class Homepage extends React.Component {
                         error
                     });
                 })
-        // TODO: If input is dynamic fetch followers after clicking the button.
+    }
+
+    handleUserIdChange = (e) => {
+        this.setState({
+            userId: e.target.value
+        })
     }
 
     render() {
-        if (!this.state.isLoaded) {
+        if (this.state.isLoaded) {
             return (
-                <div> Please wait.. Loading </div>
-            )
+                <ul>
+                    {this.state.followers.map(follower => (
+                        <li key={follower.id}>
+                            <Follower user={follower}/>
+                        </li>
+                    ))}
+                </ul>
+            );
         }
         return (
-            // TODO: if isloading == false render each follower in Follower component.
-            // {
-            //   this.followers.forEach(follower => {
-            //     <Follower user={follwer} />
-            //   })
-            // }
             <div>
                 <div>
-                    HELLO
+                    Followers
                 </div>
                 <div>
-                    {/* Followers: <br /> */}
-                    Followers: {this.state.followers.map(follower => <div>{follower.name}</div>)}
-                    Count: {this.state.count}
-                    <button type='button' onClick={this.handleIncrement}>Increment</button>
-                    {/*<input onChange={this.handleUserIdChange}> </input>*/}
+                    <label>UserId </label>
+                    <input type='text' onChange={(e) => {
+                        this.handleUserIdChange(e)
+                    }}/>
+                    <button type='submit' onClick={this.handleFollowers}>Get Followers</button>
                 </div>
             </div>
         )
