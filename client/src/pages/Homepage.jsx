@@ -53,21 +53,22 @@ export default class Homepage extends React.Component {
       const followers = [];
       this.state.followers.forEach((follower, index) => {
         followers.push(
-          <li id={index}>
-            <Follower user={follower} />
-          </li>
+          <Follower user={follower} />
         )
       })
-      const output = followers.length > 0 ? <ul className="followers"> {followers} </ul> : <h1> There is no follower.</h1>
+      const output = followers.length > 0 ? <div className="followers-container"> {followers} </div> : <h1> There is no follower.</h1>
 
       return (
         <div>
           <div>
             <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
-            <button className="btn btn-get-followers" onClick={this.fetchFollowers}> Get Followers</button>
+            <button className="primary" onClick={this.fetchFollowers}> Get Followers</button>
           </div>
-          {output}
-        </div>
+          { output}
+          <div>
+            adsadaasd
+          </div>
+        </div >
       )
     }
   }

@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
+  color: white;
 }
 
 code {
@@ -12,7 +14,21 @@ code {
     monospace;
 }
 
-ul.followers{
+.follower-following-count{
   list-style-position: inside;
-  list-style-type: none;
 }
+
+.followers-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 32px 0;
+  flex-wrap: wrap;
+  font-family: 'Montserrat', sans-serif;
+}
+/* 
+  @media only screen and (max-width: 1000) {
+    .followers-container {
+      background-color: lightblue;
+    }
+  } */

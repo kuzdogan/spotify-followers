@@ -1,0 +1,37 @@
+.follower{
+  border-color: white;
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  background-color: #1DB954;
+  margin: 16px 16px;
+  padding: 0 16px;
+  width: 25%;
+}
+
+.follower h1 {
+  font-size: 20px;
+}
+
+.follower h1:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.follower h2 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.follower img {
+  height: 100px;
+  width: auto;
+  border-radius: 50px;
+  margin: 8px
+}
+
+.follower-field p {
+  margin: 8px 0;
+  font-size: 12px;
+}
+

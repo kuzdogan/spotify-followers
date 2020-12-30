@@ -1,28 +1,22 @@
 import React from 'react';
+import "./Follower.css";
 
-export default class Homepage extends React.Component {
+export default function Follower({ user }) {
+    console.log(user)
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            uri: props.user.uri,
-            name: props.user.name,
-            imageUrl: props.user.image_url,
-            followersCount: props.user.followers_count,
-            followingCount: props.user.following_count,
-        }
-    }
-    
-    render(){
-        return(
-            <div className="follower" >
-                <h1>{this.state.name}</h1>
-                <h2>{this.state.uri}</h2>
-                <ul className="follower-following-count">
-                    <li className="follower-count"> Followers Count: {this.state.followersCount} </li>
-                    <li className="following-count"> Following Count: {this.state.followingCount} </li>
-                </ul>
+    const userId = user.uri.split(':')[2];
+    // Render
+    return (
+        <div className="follower" >
+            <a href={`https://open.spotify.com/user/${userId}`} target="_blank" rel="noreferrer">
+                <img src={user.image_url} alt="Spotify user" />
+            </a>
+            <h1>{user.name}</h1>
+            {/* <h2>{user.uri}</h2> */}
+            <div className="follower-field">
+                <p> Followers Count: {user.followers_count} </p>
+                <p> Following Count: {user.following_count} </p>
             </div>
-        )
-    }
+        </div>
+    )
 }
