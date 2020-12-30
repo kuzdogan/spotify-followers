@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Follower from '../components/Follower';
 const TOKEN_URL = "https://open.spotify.com/get_access_token?reason=transport&productType=web_player";
 
 export default class Homepage extends React.Component {
@@ -7,48 +7,68 @@ export default class Homepage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       followers: [],
-      userId: null
+      userId: ''
     }
-    this.userId = 11101586339 // TODO: Dynamically handle userId inside state
   }
 
-  handleIncrement = () => {
-    this.setState(prevState => ({ count: prevState.count + 1 }))
+  handleUserIdChange = (event) => {
+    this.setState({ userId: event.target.value })
   }
 
-
-  componentDidMount() {
-    // TODO: fetch all followers from the server endpoint. Then assign followers into the state.
-    // TODO: If input is dynamic fetch followers after clicking the button.
+  fetchFollowers = () => {
+    this.setState({ isLoading: true })
+    const userId = document.getElementById('spotify-user-id').value;
+    if (!userId || userId === '') {
+      throw new Error('Invalid user id.')
+    }
+    console.log('Fetching followers');
+    fetch(`http://localhost:3000/user/${userId}/followers`)
+      .then(res => {
+        if (res.status !== 200) {
+          this.setState({
+            followers: [],
+            isLoading: false
+          });
+          // throw new Error('Failed to fetch users.');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        this.setState({
+          followers: resData.followers,
+          isLoading: false
+        });
+      })
   }
 
   render() {
     if (this.state.isLoading) {
       return (
-        <div> Loading </div>
+        <div>Loading</div>
       )
     }
-    return (
-      // TODO: if isloading == false render each follower in Follower component.
-      // {
-      //   this.followers.forEach(follower => {
-      //     <Follower user={follwer} />
-      //   })
-      // }
-      <div>
+    else {
+      const followers = [];
+      this.state.followers.forEach((follower, index) => {
+        followers.push(
+          <li id={index}>
+            <Follower user={follower} />
+          </li>
+        )
+      })
+      const output = followers.length > 0 ? <ul className="followers"> {followers} </ul> : <h1> There is no follower.</h1>
+
+      return (
         <div>
-          HELLO
+          <div>
+            <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+            <button className="btn btn-get-followers" onClick={this.fetchFollowers}> Get Followers</button>
+          </div>
+          {output}
         </div>
-        <div>
-          {/* Followers: <br /> */}
-          {/* {this.state.followers} */}
-          Count: {this.state.count}
-          <button type='button' onClick={this.handleIncrement}>Increment</button>
-          <input onChange={this.handleUserIdChange}> </input>
-        </div>
-      </div>
-    )
+      )
+    }
   }
 }
