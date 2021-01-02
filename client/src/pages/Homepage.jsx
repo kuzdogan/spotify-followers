@@ -1,13 +1,12 @@
 import React from 'react';
 import Follower from '../components/Follower';
-const TOKEN_URL = "https://open.spotify.com/get_access_token?reason=transport&productType=web_player";
 
 export default class Homepage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoaded: false,
       followers: [],
       userId: ''
     }
@@ -18,7 +17,6 @@ export default class Homepage extends React.Component {
   }
 
   fetchFollowers = () => {
-    this.setState({ isLoading: true })
     const userId = document.getElementById('spotify-user-id').value;
     if (!userId || userId === '') {
       throw new Error('Invalid user id.')
@@ -29,29 +27,34 @@ export default class Homepage extends React.Component {
         if (res.status !== 200) {
           this.setState({
             followers: [],
-            isLoading: false
+            isLoaded: true
           });
-          // throw new Error('Failed to fetch users.');
         }
         return res.json();
       })
       .then(resData => {
         this.setState({
           followers: resData.followers,
-          isLoading: false
+          isLoaded: true
         });
       })
   }
 
   render() {
-    if (this.state.isLoading) {
+    if (!this.state.isLoaded) {
       return (
-        <div>Loading</div>
-      )
+          <div>
+            <div>
+              <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+              <button className="primary" onClick={this.fetchFollowers}> Get Followers</button>
+            </div>
+            <div>
+            </div>
+          </div >      )
     }
     else {
       const followers = [];
-      this.state.followers.forEach((follower, index) => {
+      this.state.followers.forEach((follower) => {
         followers.push(
           <Follower user={follower} />
         )
@@ -66,7 +69,6 @@ export default class Homepage extends React.Component {
           </div>
           { output}
           <div>
-            adsadaasd
           </div>
         </div >
       )
