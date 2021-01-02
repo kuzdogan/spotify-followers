@@ -1,4 +1,4 @@
-.unfollower{
+.follower{
   border-color: white;
   border-width: 2px;
   border-radius: 8px;
@@ -9,21 +9,21 @@
   width: 25%;
 }
 
-.unfollower h1 {
+.follower h1 {
   font-size: 20px;
 }
 
-.unfollower h1:hover {
+.follower h1:hover {
   color: black;
   cursor: pointer;
 }
 
-.unfollower h2 {
+.follower h2 {
   font-size: 16px;
   font-weight: 400;
 }
 
-.unfollower img {
+.follower img {
   height: 100px;
   width: auto;
   border-radius: 50px;
