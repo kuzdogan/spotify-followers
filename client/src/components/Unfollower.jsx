@@ -1,7 +1,7 @@
 import React from 'react';
-import "./Follower.css";
+import "./Unfollower.css";
 
-export default function Follower({ user }) {
+export default function Unfollower({ user }) {
     console.log(user)
 
     const userId = user.uri.split(':')[2];
@@ -9,12 +9,12 @@ export default function Follower({ user }) {
     return (
         <div className="unfollower" >
             <a href={`https://open.spotify.com/user/${userId}`} target="_blank" rel="noreferrer">
-                <img src={user.image_url} alt="Spotify user" />
+                <img src={user.imageURL} alt="Spotify user" />//todo:show dummy image for if empty url
             </a>
             <h1>{user.name}</h1>
             <div className="follower-field">
-                <p> Followers Count: {user.followers_count} </p>
-                <p> Following Count: {user.following_count} </p>
+                <p> Followers Count: {user.followersCount} </p>
+                <p> Following Count: {user.followingCount} </p>
             </div>
         </div>
     )

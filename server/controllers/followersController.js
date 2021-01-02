@@ -17,7 +17,8 @@ exports.getFollowersUnfollowers = function (req, res) {
                     .then(([newFollowers, unfollowers]) => {
                         console.log('New followers are: ', newFollowers);
                         console.log('Unfollowers are: ', unfollowers)
-                        return updateFollowersOfUser(newFollowers, unfollowers, user).then(() => [newFollowers, unfollowers])
+                        return updateFollowersOfUser(newFollowers, unfollowers, user)
+                            .then(() => [newFollowers, unfollowers])
                     })
                     .then(([newFollowers, unfollowers]) => {
                         const diff = { newFollowers, unfollowers };
@@ -28,7 +29,7 @@ exports.getFollowersUnfollowers = function (req, res) {
                 return createUser(userId)
                     .then(user => {
                         console.log('Successfully created user ' + user.id)
-                        res.status(200).json(user);
+                        res.status(201).json(user);
                     })
             }
         })
@@ -118,7 +119,7 @@ function saveFollowers(followers) {
         let dbFollower = new Follower({
             uri: follower.uri,
             name: follower.name,
-            imageUrl: follower.image_url,
+            imageURL: follower.image_url,
             followersCount: follower.followers_count,
             followingCount: follower.following_count
         })
