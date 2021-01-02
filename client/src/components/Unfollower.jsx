@@ -6,13 +6,14 @@ export default function Unfollower({ user }) {
 
     const userId = user.uri.split(':')[2];
     // Render
+    //todo:show dummy image for if empty url
     return (
         <div className="unfollower" >
             <a href={`https://open.spotify.com/user/${userId}`} target="_blank" rel="noreferrer">
-                <img src={user.imageURL} alt="Spotify user" />//todo:show dummy image for if empty url
+                <img src={user.imageURL} alt="Spotify user" />
             </a>
             <h1>{user.name}</h1>
-            <div className="follower-field">
+            <div className="unfollower-field">
                 <p> Followers Count: {user.followersCount} </p>
                 <p> Following Count: {user.followingCount} </p>
             </div>

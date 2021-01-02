@@ -122,9 +122,10 @@ export default class Homepage extends React.Component {
           <h1> There is no unfollower.</h1>
 
       return (
+          //todo:css for infos
         <div>
           {this.getFollowerButton()}
-          <h2> New Followers </h2>//todo:css for infos
+          <h2> New Followers </h2>
           { newFollowerOutput}
           <h2> Unfollowers </h2>
           { newUnfollowerOutput}
