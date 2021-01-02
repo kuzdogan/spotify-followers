@@ -7,7 +7,7 @@ export default function Follower({ user }) {
     const userId = user.uri.split(':')[2];
     // Render
     return (
-        <div className="unfollower" >
+        <div className="follower" >
             <a href={`https://open.spotify.com/user/${userId}`} target="_blank" rel="noreferrer">
                 <img src={user.image_url} alt="Spotify user" />
             </a>
