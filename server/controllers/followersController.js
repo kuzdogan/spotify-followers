@@ -19,16 +19,16 @@ exports.getFollowersUnfollowers = function (req, res) {
                         console.log('Unfollowers are: ', unfollowers)
                         return updateFollowersOfUser(newFollowers, unfollowers, user).then(() => [newFollowers, unfollowers])
                     })
-                    .then(([newFollowers, unfollowers]) => {
-                        const diff = { newFollowers, unfollowers };
-                        return res.status(200).json(diff);
+                    .then(([newFollowers, unFollowers]) => {
+                        const diff = { newFollowers, unFollowers };
+                        return res.status(200).json({diff:diff, messaage: 'Diff calculated'});
                     })
             } else {
-                console.log(`User does not exist. Creating user ${userId}`)
+                console.log(`User does not exist. Creating user ${userId}`);
                 return createUser(userId)
                     .then(user => {
-                        console.log('Successfully created user ' + user.id)
-                        res.status(200).json(user);
+                        console.log('Successfully created user ' + user.id);
+                        res.status(201).json({user: user, message: `User ${user.id} has been created. Please come back later`});
                     })
             }
         })
