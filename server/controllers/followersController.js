@@ -28,7 +28,7 @@ exports.getFollowersUnfollowers = function (req, res) {
                 return createUser(userId)
                     .then(user => {
                         console.log('Successfully created user ' + user.id);
-                        res.status(201).json({user: user, message: `User ${user.id} has been created. Please come back later`});
+                        res.status(201).json({user: user, message: `Wohooo! User ${user.id} has been created.`});
                     })
             }
         })
@@ -111,7 +111,7 @@ function queryPreviousFollowers(userId) {
     return User.findOne({ id: userId }).populate('followers').then(user => user.followers);
 }
 
-function saveFollowers(followers) {
+function saveSpotifyFollowers(followers) {
     let promises = [];
 
     for (follower of followers) {
@@ -124,7 +124,14 @@ function saveFollowers(followers) {
         })
         promises.push(dbFollower.save())
     }
+    return Promise.all(promises);
+}
 
+function saveFollowers(followers){
+    let promises = [];
+    for (follower of followers) {
+        promises.push(follower.save())
+    }
     return Promise.all(promises);
 }
 
@@ -136,7 +143,19 @@ function requestFollowers(accessToken, userId) {
             Authorization: `Bearer ${accessToken}`
         }
         // }).then(response => response.data.profiles)
-    }).then(response => response.data.profiles.splice(0, 3)) // Debug
+    }).then(response => {
+        return response.data.profiles.splice(0, 3) // Debug
+    }).then(followers => {
+        return followers.map(follower => {
+            return new Follower({
+                uri: follower.uri,
+                name: follower.name,
+                imageUrl: follower.image_url,
+                followersCount: follower.followers_count,
+                followingCount: follower.following_count
+            });
+        })
+    })
 }
 
 /**

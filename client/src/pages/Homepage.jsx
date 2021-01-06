@@ -6,6 +6,7 @@ export default class Homepage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFirstLoad: true,
       isLoading: false,
       isNewUser: false,
       followers: [],
@@ -38,8 +39,10 @@ export default class Homepage extends React.Component {
             followers: [],
             isLoading: false,
             isNewUser: true,
-            message: resData.message
+            message: resData.message,
+            isFirstLoad: false
           });
+          alert("Please come back later to see your follower changes!");
         }
         else if (statusCode === 200) {
           this.setState({
@@ -47,7 +50,8 @@ export default class Homepage extends React.Component {
             unFollowers: resData.diff.unFollowers,
             isNewUser: false,
             isLoading: false,
-            message: resData.message
+            message: resData.message,
+            isFirstLoad: false
           });
         }
       })
@@ -80,7 +84,21 @@ export default class Homepage extends React.Component {
   }
 
   render() {
-    if (this.state.isLoading) {
+
+    if (this.state.isFirstLoad) {
+      return (
+        <div>
+          <div>
+            <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+            <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
+          </div>
+          <div>
+            Hey you ! Please, enter your spotify id above.
+          </div>
+        </div>
+      )
+    }
+    else if (this.state.isLoading) {
       return (
         <div>Loading</div>
       )
@@ -102,15 +120,15 @@ export default class Homepage extends React.Component {
             <Follower user={follower} />
           )
         })
-        const newFollowersInfo = newFollowers.length > 0 ? newFollowers :  'There is no new follower. Keep rolling!';
+        const newFollowersInfo = newFollowers.length > 0 ? <div className="center display-container"> {newFollowers} </div> : 'There is no new follower. Keep rolling!';
 
         this.state.unFollowers.forEach((unFollower, index) => {
           unFollowers.push(
             <Follower user={unFollower} />
           )
         })
-        
-        const unFollowersInfo = unFollowers.length > 0 ? unFollowers :  'There is no unfollower. You are so popular!';
+
+        const unFollowersInfo = unFollowers.length > 0 ? <div className="center display-container"> {unFollowers} </div> : 'There is no unfollower. You are so popular!';
 
         return (
           <div>
@@ -118,9 +136,11 @@ export default class Homepage extends React.Component {
               <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
               <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
             </div>
+            <div className="center container-header">Followers </div>
             <div className="followers-container new-followers-container">
               {newFollowersInfo}
             </div>
+            <div className="center container-header">Unfollowers </div>
             <div className="followers-container unfollowers-container">
               {unFollowersInfo}
             </div>
