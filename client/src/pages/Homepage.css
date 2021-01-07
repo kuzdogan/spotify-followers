@@ -1,0 +1,27 @@
+.newFollowers {
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  color: beige;
+  margin: 16px 16px;
+  padding: 0 16px;
+}
+
+.newUnfollowers {
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  color: beige;
+  margin: 16px 16px;
+  padding: 0 16px;
+}
+
+.firstEntry {
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  color: beige;
+  margin: 16px 16px;
+  padding: 0 16px;
+}
+

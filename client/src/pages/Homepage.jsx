@@ -1,6 +1,7 @@
 import React from 'react';
 import Follower from '../components/Follower';
 import Unfollower from "../components/Unfollower";
+import './Homepage.css';
 
 export default class Homepage extends React.Component {
 
@@ -20,7 +21,7 @@ export default class Homepage extends React.Component {
   handleUserIdChange = (event) => {
     this.setState({ userId: event.target.value })
   }
-
+  //todo:use for different component
   fetchFollowers = () => {
     const userId = document.getElementById('spotify-user-id').value;
     if (!userId || userId === '') {
@@ -89,14 +90,14 @@ export default class Homepage extends React.Component {
       return this.getFollowerButton()
     }else if (this.state.isErrorHappened){
       return (
-          <div>
+          <div className="failFetch">
             {this.getFollowerButton()}
             <h1> Followers couldn't be fetched right now. Please try again.</h1>
           </div>
       );
     }else if (!this.state.isUserAlreadyCreated){
       return (
-          <div>
+          <div className="firstEntry">
             {this.getFollowerButton()}
             <h1> User created for first time. Please check later for difference.</h1>
           </div>
@@ -110,7 +111,7 @@ export default class Homepage extends React.Component {
         )
       })
       const newFollowerOutput = newFollowers.length > 0 ? <div className="followers-container"> {newFollowers} </div> :
-          <h1> There is no new follower.</h1>
+          <h2> There is no new follower.</h2>
 
       const newUnfollowers = [];
       this.state.unfollowers.forEach((unfollower) => {
@@ -119,17 +120,18 @@ export default class Homepage extends React.Component {
         )
       })
       const newUnfollowerOutput = newUnfollowers.length > 0 ? <div className="followers-container"> {newUnfollowers} </div> :
-          <h1> There is no unfollower.</h1>
+          <h2> There is no unfollower.</h2>
 
       return (
-          //todo:css for infos
         <div>
           {this.getFollowerButton()}
-          <h2> New Followers </h2>
-          { newFollowerOutput}
-          <h2> Unfollowers </h2>
-          { newUnfollowerOutput}
-          <div>
+          <div className="newFollowers">
+              <h1> New Followers </h1>
+              { newFollowerOutput}
+          </div>
+          <div className="newUnfollowers">
+              <h1> Unfollowers </h1>
+              { newUnfollowerOutput}
           </div>
         </div >
       )
