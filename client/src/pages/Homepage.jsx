@@ -136,11 +136,11 @@ export default class Homepage extends React.Component {
               <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
               <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
             </div>
-            <div className="center container-header">Followers </div>
+            <div className="center container-header">Followers ({this.state.newFollowers.length}) </div>
             <div className="followers-container new-followers-container">
               {newFollowersInfo}
             </div>
-            <div className="center container-header">Unfollowers </div>
+            <div className="center container-header">Unfollowers ({this.state.unFollowers.length}) </div>
             <div className="followers-container unfollowers-container">
               {unFollowersInfo}
             </div>
