@@ -21,14 +21,14 @@ exports.getFollowersUnfollowers = function (req, res) {
                     })
                     .then(([newFollowers, unFollowers]) => {
                         const diff = { newFollowers, unFollowers };
-                        return res.status(200).json({diff:diff, messaage: 'Diff calculated'});
+                        return res.status(200).json({ diff: diff, messaage: 'Diff calculated' });
                     })
             } else {
                 console.log(`User does not exist. Creating user ${userId}`);
                 return createUser(userId)
                     .then(user => {
                         console.log('Successfully created user ' + user.id);
-                        res.status(201).json({user: user, message: `Wohooo! User ${user.id} has been created.`});
+                        res.status(201).json({ user: user, message: `Wohooo! User ${user.id} has been created.` });
                     })
             }
         })
@@ -44,13 +44,13 @@ exports.getFollowers = function (req, res) {
         return res.status(400).send('Bad Request');
     return getFollowers(userId)
         .then(followers => {
-            res.status(200).json({followers: followers});
+            res.status(200).json({ followers: followers });
         })
         .catch(err => {
-            res.status(404).json({followers: [], message: err});
+            res.status(404).json({ followers: [], message: err });
         });
 }
- 
+
 
 /**
  * Function to check if user exists on the db. 
@@ -127,7 +127,7 @@ function saveSpotifyFollowers(followers) {
     return Promise.all(promises);
 }
 
-function saveFollowers(followers){
+function saveFollowers(followers) {
     let promises = [];
     for (follower of followers) {
         promises.push(follower.save())
@@ -144,7 +144,7 @@ function requestFollowers(accessToken, userId) {
         }
         // }).then(response => response.data.profiles)
     }).then(response => {
-        return response.data.profiles.splice(0, 3) // Debug
+        return response.data.profiles.splice(0, 5) // Debug
     }).then(followers => {
         return followers.map(follower => {
             return new Follower({
@@ -197,7 +197,7 @@ async function updateFollowersOfUser(newFollowers, unfollowers, user) {
  * @returns {Promise} resolving to the followers of user.
  * @param {String} userId
  */
-async function getFollowers(userId){
+async function getFollowers(userId) {
     const accessToken = await getAccessToken();
     const currentFollowers = await requestFollowers(accessToken, userId);
     return currentFollowers;

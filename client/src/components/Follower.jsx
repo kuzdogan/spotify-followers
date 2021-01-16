@@ -1,12 +1,12 @@
 import React from 'react';
+import noImage from '../public/no_image.png';
 import "./Follower.css";
-import noImage from '../public/no_image.png'
 
 export default function Follower({ user }) {
     console.log(user)
 
     const userId = user.uri.split(':')[2];
-    if(!user.imageUrl){
+    if (!user.imageUrl) {
         user.imageUrl = noImage;
     }
     // Render

@@ -1,7 +1,7 @@
 import React from 'react';
 import Follower from '../components/Follower';
 
-export default class Homepage extends React.Component {
+export default class Followers extends React.Component {
 
   constructor(props) {
     super(props);
@@ -23,8 +23,8 @@ export default class Homepage extends React.Component {
 
   getFollowersDif = () => {
     this.setState({ isLoading: true });
-    const userId = document.getElementById('spotify-user-id').value;
-    if (!userId || userId === '') {
+    const userId = this.state.userId;
+    if (!userId) {
       throw new Error('Invalid user id.')
     }
     let statusCode;
@@ -89,8 +89,12 @@ export default class Homepage extends React.Component {
       return (
         <div>
           <div>
-            <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
-            <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
+            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+            <button
+              onClick={this.getFollowersDif}
+            >
+              Follower Changes
+            </button>
           </div>
           <div>
             Hey you ! Please, enter your spotify id above.
@@ -112,19 +116,17 @@ export default class Homepage extends React.Component {
         )
       }
       else {
-        const newFollowers = [];
         const unFollowers = [];
 
-        this.state.newFollowers.forEach((follower, index) => {
-          newFollowers.push(
-            <Follower user={follower} />
-          )
+        const newFollowers = this.state.newFollowers.map((follower, i) => {
+          return <Follower key={i} user={follower} />
         })
+
         const newFollowersInfo = newFollowers.length > 0 ? <div className="center display-container"> {newFollowers} </div> : 'There is no new follower. Keep rolling!';
 
-        this.state.unFollowers.forEach((unFollower, index) => {
+        this.state.unFollowers.forEach((unFollower, i) => {
           unFollowers.push(
-            <Follower user={unFollower} />
+            <Follower key={i} user={unFollower} />
           )
         })
 
