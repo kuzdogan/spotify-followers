@@ -11,5 +11,8 @@
   "dependencies": {
     "axios": "^0.21.0",
     "mongoose": "^5.11.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
