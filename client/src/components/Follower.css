@@ -7,6 +7,12 @@
   margin: 16px 16px;
   padding: 0 16px;
   width: 25%;
+  transition: transform .3s
+}
+
+.follower:hover{
+  background-color:#1D75DE;
+  transform: scale(1.1);
 }
 
 .follower h1 {

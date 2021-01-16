@@ -1,20 +1,60 @@
 import React from 'react';
 import Follower from '../components/Follower';
-const TOKEN_URL = "https://open.spotify.com/get_access_token?reason=transport&productType=web_player";
 
 export default class Homepage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      isFirstLoad: true,
       isLoading: false,
+      isNewUser: false,
       followers: [],
-      userId: ''
+      newFollowers: [],
+      unFollowers: [],
+      userId: '',
+      message: ''
     }
   }
 
   handleUserIdChange = (event) => {
     this.setState({ userId: event.target.value })
+  }
+
+  getFollowersDif = () => {
+    this.setState({ isLoading: true });
+    const userId = document.getElementById('spotify-user-id').value;
+    if (!userId || userId === '') {
+      throw new Error('Invalid user id.')
+    }
+    let statusCode;
+    fetch(`http://localhost:3000/user/${userId}/follower-unfollower-diff`)
+      .then(res => {
+        statusCode = res.status;
+        return res.json();
+      })
+      .then(resData => {
+        if (statusCode === 201) {
+          this.setState({
+            followers: [],
+            isLoading: false,
+            isNewUser: true,
+            message: resData.message,
+            isFirstLoad: false
+          });
+          alert("Please come back later to see your follower changes!");
+        }
+        else if (statusCode === 200) {
+          this.setState({
+            newFollowers: resData.diff.newFollowers,
+            unFollowers: resData.diff.unFollowers,
+            isNewUser: false,
+            isLoading: false,
+            message: resData.message,
+            isFirstLoad: false
+          });
+        }
+      })
   }
 
   fetchFollowers = () => {
@@ -44,32 +84,69 @@ export default class Homepage extends React.Component {
   }
 
   render() {
-    if (this.state.isLoading) {
+
+    if (this.state.isFirstLoad) {
+      return (
+        <div>
+          <div>
+            <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+            <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
+          </div>
+          <div>
+            Hey you ! Please, enter your spotify id above.
+          </div>
+        </div>
+      )
+    }
+    else if (this.state.isLoading) {
       return (
         <div>Loading</div>
       )
     }
     else {
-      const followers = [];
-      this.state.followers.forEach((follower, index) => {
-        followers.push(
-          <Follower user={follower} />
+      if (this.state.isNewUser) {
+        return (
+          <div>
+            {this.state.message}
+          </div>
         )
-      })
-      const output = followers.length > 0 ? <div className="followers-container"> {followers} </div> : <h1> There is no follower.</h1>
+      }
+      else {
+        const newFollowers = [];
+        const unFollowers = [];
 
-      return (
-        <div>
+        this.state.newFollowers.forEach((follower, index) => {
+          newFollowers.push(
+            <Follower user={follower} />
+          )
+        })
+        const newFollowersInfo = newFollowers.length > 0 ? <div className="center display-container"> {newFollowers} </div> : 'There is no new follower. Keep rolling!';
+
+        this.state.unFollowers.forEach((unFollower, index) => {
+          unFollowers.push(
+            <Follower user={unFollower} />
+          )
+        })
+
+        const unFollowersInfo = unFollowers.length > 0 ? <div className="center display-container"> {unFollowers} </div> : 'There is no unfollower. You are so popular!';
+
+        return (
           <div>
-            <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
-            <button className="primary" onClick={this.fetchFollowers}> Get Followers</button>
+            <div>
+              <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+              <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
+            </div>
+            <div className="center container-header">Followers ({this.state.newFollowers.length}) </div>
+            <div className="followers-container new-followers-container">
+              {newFollowersInfo}
+            </div>
+            <div className="center container-header">Unfollowers ({this.state.unFollowers.length}) </div>
+            <div className="followers-container unfollowers-container">
+              {unFollowersInfo}
+            </div>
           </div>
-          { output}
-          <div>
-            adsadaasd
-          </div>
-        </div >
-      )
+        )
+      }
     }
   }
 }
