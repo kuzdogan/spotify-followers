@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectToDB } = require('./mongoose');
 const followersRoutes = require('./routes/followersRoutes');
+const playlistsRoutes = require('./routes/playlistsRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -39,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/user', followersRoutes);
+app.use('/playlist', playlistsRoutes);
 
 app.listen(port, () => {
   console.log('Express Listening at http://localhost:' + port);
