@@ -1,78 +1,46 @@
 const { get } = require('axios');
 const PlayList = require('../entities/playlist');
-const accessToken = 'BQAGld0sMCykxS_1Vx2Tywz_UD_BD140YB5SPoiKmdSRsI7bIrrX4wbY02aHMapYyfZG1yQ8xrug24I1_QV6pPyOLxuuIsa37T2JM9puYoDV2y8r3u8Gov5CUsSMKaqcznslrGDuX0cdPZObgs1WGs7sOT3phx9c';
+const accessToken = 'BQA0XgfWiwT9zRRVhL1PpMDPUwSbwh6klq83dCD__arUuOFgrJ6tcrq7GVwNuzu9-kbZIfVnbFCYdFGbsWWeS6hOT806rFHsuyjKhv4YLqS0rfGwoMbD8fI4t-Vuk-VKBvEM3wvsP_91t3yJGhKt1vWCO5TMDz0t';
 const maximumLimit = 50;
 
 exports.getPlaylists = async function (req, res) {
     const userId = req.params.userId;
     return getPlaylistsOfUser(userId)
         .then(result => {
-            const playlistCount = result.playlistCount;
-            const playlists = result.playlists;
-            res.status(200).json({ playlistCount, playlists });
+            res.status(200).json(result);
         })
         .catch(err => console.log(err));
 }
 
 /**
- * Example: Playlist count of a user is 123. Both contains the owned and followed ones.
- * "https://api.spotify.com/v1/users/11173711023/playlists?limit=50&offset=0"
- * "https://api.spotify.com/v1/users/11173711023/playlists?limit=50&offset=50"
- * "https://api.spotify.com/v1/users/11173711023/playlists?limit=23&offset=100"
- * 
  * @param {String} userId 
  */
 async function getPlaylistsOfUser(userId) {
-    //To get playlist count
-    let playlistResult = await getPlaylistOfUserResult(userId);
-    let playlistCount = playlistResult.total;
-
+    let playlistsURL = `https://api.spotify.com/v1/users/${userId}/playlists?limit=${maximumLimit}`;
     let array = [];
-    const divisor = Math.floor(playlistCount / maximumLimit);
-
-    let i;
-    for(i=0; i< divisor; i++){
-        await collectPlaylists(array,userId,maximumLimit,maximumLimit*i );
+    
+    while(playlistsURL){
+        let playlistResult = await getPlaylistOfUserResult(playlistsURL);
+        array.push(playlistResult.items.filter(item =>{
+            return item.owner.id && item.owner.id === userId
+        }));
+        playlistsURL = playlistResult.next;
     }
-
-    await collectPlaylists(array,userId,playlistCount % maximumLimit,maximumLimit *i );
-
-    const playlistOfUser = array[0].filter(item => {
-        return item.owner.id && item.owner.id === userId;
-    });
-
-    const playlists = playlistOfUser.map(item => {
+    //Converts spotify playlist to our playlist entity
+    const playlists = array[0].map(item => {
         return new PlayList(item);
     });
 
-    playlistCount = playlists.length;
-
-    return {playlistCount, playlists};
+    return {playlistCount: playlists.length, playlists};
 }
 
 /**
- * Given an array contains playlists of a user, adding remaining playlists to the given array.
- * @param {String} array 
- * @param {String} userId 
- * @param {String} limit 
- * @param {String} offset 
+ * fetch playlists by request url
+ * @param {String} requestUrl 
  */
-async function collectPlaylists(array, userId,limit,offset){
-    const list = await getPlaylistOfUserResult(userId, limit, offset);
-    array.push(list.items);
-    return array;
-}
-
-/**
- * Returns the playlists of a user with filters.
- * @param {String} userId 
- * @param {String} limit 
- * @param {String} offset 
- */
-async function getPlaylistOfUserResult(userId,limit,offset) {
-    const playlistsURL = `http://api.spotify.com/v1/users/${userId}/playlists${!limit ? '' : `?limit=${limit}`}${!offset ? '' : `&offset=${offset}`}`;
-    console.log(playlistsURL);
-    const playlistResult = await get(playlistsURL, {
+async function getPlaylistOfUserResult(requestUrl) {
+    console.log(requestUrl);
+    const playlistResult = await get(requestUrl, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
