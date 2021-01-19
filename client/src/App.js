@@ -6,7 +6,7 @@ import {
 import './App.css';
 import NavBar from './components/NavBar';
 import Followers from './pages/Followers';
-import Playlist from './pages/Playlist';
+import Playlists from './pages/Playlists';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
             <Followers />
           </Route>
           <Route path="/Playlists">
-            <Playlist />
+            <Playlists />
           </Route>
         </Switch>
       </Router>
