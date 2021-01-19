@@ -16,7 +16,6 @@ export default function Follower({ user }) {
                 <img src={user.imageUrl} alt="Spotify user" />
             </a>
             <h1>{user.name}</h1>
-            {/* <h2>{user.uri}</h2> */}
             <div className="follower-field">
                 <p> Followers Count: {user.followersCount} </p>
                 <p> Following Count: {user.followingCount} </p>
