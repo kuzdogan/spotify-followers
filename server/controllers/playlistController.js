@@ -1,6 +1,7 @@
 const { get } = require('axios');
 const PlayList = require('../entities/playlist');
-const accessToken = 'BQA0XgfWiwT9zRRVhL1PpMDPUwSbwh6klq83dCD__arUuOFgrJ6tcrq7GVwNuzu9-kbZIfVnbFCYdFGbsWWeS6hOT806rFHsuyjKhv4YLqS0rfGwoMbD8fI4t-Vuk-VKBvEM3wvsP_91t3yJGhKt1vWCO5TMDz0t';
+//add your token to get playlists
+const accessToken = 'BQAOGaZP9ge4VcFIS9CEdqa6BC7KtpqIxsYYFeAxxO1pWDgG_5ynbb52u_lsYzzRtRV_LcvFubODbRkPQELkzyH9jZeckMIo84XLK5epi4f5v1ssT_MkCPWA0Ujdk8I9LcWJtjk9IYN7WM0-dkRFcle-IgruT1-0o36fUfyOgcBUtVoh3UDhAIOEyr_uCwuaLEqkc-kjjh17th51EXYq4eeyVAy0bYFjrmHEX5BiEPq-_QUFwte4gd8wYBrGE77rdiNxhPYueaAGjfZ_6A3qSTLasKxLIIPUMtF0';
 const maximumLimit = 50;
 
 exports.getPlaylists = async function (req, res) {

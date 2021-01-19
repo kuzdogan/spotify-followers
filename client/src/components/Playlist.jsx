@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Playlist.css";
 
-export default function Playlist({ user: playlistItem }) {
+export default function Playlist({ playlistItem }) {
     console.log(playlistItem)
     // Render
     return (

@@ -4,33 +4,32 @@ import Playlist from '../components/Playlist';
 export default function Playlists() {
 
     const [playlists, setPlaylists] = useState(true);
-    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [userId, setUserId] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     function handleUserIdChange(event){
         setUserId(event.target.value);
     }
 
     function fetchPlaylists() {
-        setIsLoading(true);
         if (!userId) {
             throw new Error('Invalid user id.')
         }
         fetch(`http://localhost:3000/playlist/${userId}`)
             .then(res => {
                 if (res.status !== 200) {
-                    setIsLoading(false);
+                    setIsLoaded(true);
                 }
                 return res.json();
             })
             .then(resData => {
+                console.log(resData.playlists);
                 setPlaylists(resData.playlists);
-                setIsLoading(false);
+                setIsLoaded(true);
             })
     }
 
-    if (isFirstLoad) {
+    if (!isLoaded) {
     return (
         <div>
           <div>
@@ -45,11 +44,6 @@ export default function Playlists() {
             Hey you ! Please, enter your spotify id above to get your playlists.
           </div>
         </div>
-    )
-  }
-  else if (isLoading) {
-    return (
-        <div>Loading</div>
     )
   }
   else{
