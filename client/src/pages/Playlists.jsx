@@ -52,7 +52,7 @@ export default function Playlists() {
             return <Playlist key={i} playlistItem={playlist} />
         })
 
-        const playlistsInfo = playlistComponents.length > 0 ? <div className="center display-container"> {playlistComponents} </div> : 'You don\'t have any playlist. Volume up!';
+        const playlistsInfo = playlistComponents.length > 0 ? <div className="center display-container" style={{flexWrap: 'wrap'}}> {playlistComponents} </div> : 'You don\'t have any playlist. Volume up!';
 
         return (
             <div>

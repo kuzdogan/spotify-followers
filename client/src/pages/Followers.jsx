@@ -6,7 +6,7 @@ export default function Followers(){
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
-  const [followers, setFollowers] = useState([]);
+  // const [followers, setFollowers] = useState([]);
   const [newFollowers, setNewFollowers] = useState([]);
   const [unFollowers, setUnFollowers] = useState([]);
   const [message, setMessage] = useState('');
@@ -46,24 +46,24 @@ export default function Followers(){
       })
   }
 
-  function fetchFollowers(){
-    setIsLoading(true);
-    if (!userId || userId === '') {
-      throw new Error('Invalid user id.')
-    }
-    console.log('Fetching followers');
-    fetch(`http://localhost:3000/user/${userId}/followers`)
-      .then(res => {
-        if (res.status !== 200) {
-          setIsLoading(false);
-        }
-        return res.json();
-      })
-      .then(resData => {
-        setFollowers(resData.followers);
-        setIsLoading(false);
-      })
-  }
+  // function fetchFollowers(){
+  //   setIsLoading(true);
+  //   if (!userId || userId === '') {
+  //     throw new Error('Invalid user id.')
+  //   }
+  //   console.log('Fetching followers');
+  //   fetch(`http://localhost:3000/user/${userId}/followers`)
+  //     .then(res => {
+  //       if (res.status !== 200) {
+  //         setIsLoading(false);
+  //       }
+  //       return res.json();
+  //     })
+  //     .then(resData => {
+  //       setFollowers(resData.followers);
+  //       setIsLoading(false);
+  //     })
+  // }
 
     if (isFirstLoad) {
       return (

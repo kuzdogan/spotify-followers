@@ -1,31 +1,31 @@
-.playlist{
-  border-color: white;
-  border-width: 2px;
-  border-radius: 8px;
-  border-style: solid;
-  background-color: #1DB954;
-  margin: 16px 16px;
-  padding: 0 16px;
-  width: 25%;
-  transition: transform .3s
+.playlist {
+    border-color: white;
+    border-width: 2px;
+    border-radius: 8px;
+    border-style: solid;
+    background-color: #1DB954;
+    margin: 16px 16px;
+    padding: 0 16px;
+    width: 25%;
+    transition: transform .3s
 }
 
-.playlist:hover{
-  background-color:#1D75DE;
-  transform: scale(1.1);
+.playlist:hover {
+    background-color: #1D75DE;
+    transform: scale(1.1);
 }
 
 .playlist h1 {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 .playlist h1:hover {
-  color: black;
-  cursor: pointer;
+    color: black;
+    cursor: pointer;
 }
 
 .playlist-field p {
-  margin: 8px 0;
-  font-size: 12px;
+    margin: 8px 0;
+    font-size: 12px;
 }
 
