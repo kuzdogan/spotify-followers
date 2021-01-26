@@ -32,6 +32,21 @@ export default function Playlists() {
             })
     }
 
+
+    const handleSpotifyLogin = () => {
+        let clientId = process.env.REACT_APP_CLIENT_ID;
+        let url = 'https://accounts.spotify.com/authorize';
+        // TODO: Add state query param
+        let requestUrl = `${url}?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3001/callback`;
+        window.open(requestUrl, 'popup', 'width=600,height=600')
+    }
+
+
+
+
+
+
+
     if (!isLoaded) {
         return (
             <div>
@@ -46,6 +61,8 @@ export default function Playlists() {
                 <div>
                     Hey you ! Please, enter your spotify id above to get your playlists.
           </div>
+                <button onClick={handleSpotifyLogin}>Log In</button>
+
             </div>
         )
     } else if (hasError) {
