@@ -1,31 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Follower from '../components/Follower';
 
-export default class Followers extends React.Component {
+export default function Followers(){
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFirstLoad: true,
-      isLoading: false,
-      isNewUser: false,
-      followers: [],
-      newFollowers: [],
-      unFollowers: [],
-      userId: '',
-      message: ''
-    }
-  }
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [newFollowers, setNewFollowers] = useState([]);
+  const [unFollowers, setUnFollowers] = useState([]);
+  const [message, setMessage] = useState('');
+  const [userId, setUserId] = useState('');
 
-  handleUserIdChange = (event) => {
-    this.setState({ userId: event.target.value })
-  }
-
-  getFollowersDif = () => {
-    this.setState({ isLoading: true });
-    const userId = this.state.userId;
+  function getFollowersDif() {
+    setIsLoading(true);
     if (!userId) {
-      throw new Error('Invalid user id.')
+      alert('Invalid user.');
     }
     let statusCode;
     fetch(`http://localhost:3000/user/${userId}/follower-unfollower-diff`)
@@ -35,63 +24,31 @@ export default class Followers extends React.Component {
       })
       .then(resData => {
         if (statusCode === 201) {
-          this.setState({
-            followers: [],
-            isLoading: false,
-            isNewUser: true,
-            message: resData.message,
-            isFirstLoad: false
-          });
+          setIsLoading(false);
+          setIsNewUser(true);
+          setMessage(resData.message);
+          setIsFirstLoad(false);
           alert("Please come back later to see your follower changes!");
         }
         else if (statusCode === 200) {
-          this.setState({
-            newFollowers: resData.diff.newFollowers,
-            unFollowers: resData.diff.unFollowers,
-            isNewUser: false,
-            isLoading: false,
-            message: resData.message,
-            isFirstLoad: false
-          });
+          setNewFollowers(resData.diff.newFollowers);
+          setUnFollowers(resData.diff.unFollowers);
+          setIsNewUser(false);
+          setIsLoading(false);
+          setMessage(resData.message);
+          setIsFirstLoad(false);
         }
       })
   }
 
-  fetchFollowers = () => {
-    this.setState({ isLoading: true })
-    const userId = document.getElementById('spotify-user-id').value;
-    if (!userId || userId === '') {
-      throw new Error('Invalid user id.')
-    }
-    console.log('Fetching followers');
-    fetch(`http://localhost:3000/user/${userId}/followers`)
-      .then(res => {
-        if (res.status !== 200) {
-          this.setState({
-            followers: [],
-            isLoading: false
-          });
-          // throw new Error('Failed to fetch users.');
-        }
-        return res.json();
-      })
-      .then(resData => {
-        this.setState({
-          followers: resData.followers,
-          isLoading: false
-        });
-      })
-  }
 
-  render() {
-
-    if (this.state.isFirstLoad) {
+    if (isFirstLoad) {
       return (
         <div>
           <div>
-            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
+            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={userId} onChange={(e) => { setUserId(e.target.value); }} />
             <button
-              onClick={this.getFollowersDif}
+              onClick={getFollowersDif}
             >
               Follower Changes
             </button>
@@ -102,47 +59,47 @@ export default class Followers extends React.Component {
         </div>
       )
     }
-    else if (this.state.isLoading) {
+    else if (isLoading) {
       return (
         <div>Loading</div>
       )
     }
     else {
-      if (this.state.isNewUser) {
+      if (isNewUser) {
         return (
           <div>
-            {this.state.message}
+            {message}
           </div>
         )
       }
       else {
-        const unFollowers = [];
+        const unFollowerComponents = [];
 
-        const newFollowers = this.state.newFollowers.map((follower, i) => {
+        const newFollowerComponents = newFollowers.map((follower, i) => {
           return <Follower key={i} user={follower} />
         })
 
-        const newFollowersInfo = newFollowers.length > 0 ? <div className="center display-container"> {newFollowers} </div> : 'There is no new follower. Keep rolling!';
+        const newFollowersInfo = newFollowerComponents.length > 0 ? <div className="center display-container"> {newFollowerComponents} </div> : 'There is no new follower. Keep rolling!';
 
-        this.state.unFollowers.forEach((unFollower, i) => {
-          unFollowers.push(
+        unFollowers.forEach((unFollower, i) => {
+          unFollowerComponents.push(
             <Follower key={i} user={unFollower} />
           )
         })
 
-        const unFollowersInfo = unFollowers.length > 0 ? <div className="center display-container"> {unFollowers} </div> : 'There is no unfollower. You are so popular!';
+        const unFollowersInfo = unFollowerComponents.length > 0 ? <div className="center display-container"> {unFollowerComponents} </div> : 'There is no unfollower. You are so popular!';
 
         return (
           <div>
             <div>
-              <input className="spotify-user-id" id="spotify-user-id" type="text" value={this.state.userId} onChange={(e) => { this.handleUserIdChange(e) }} />
-              <button className="primary" onClick={this.getFollowersDif}> Follower Changes </button>
+              <input className="spotify-user-id" id="spotify-user-id" type="text" value={userId} onChange={(e) => { setUserId(e.target.value); }} />
+              <button className="primary" onClick={getFollowersDif}> Follower Changes </button>
             </div>
-            <div className="center container-header">Followers ({this.state.newFollowers.length}) </div>
+            <div className="center container-header">Followers ({newFollowers.length}) </div>
             <div className="followers-container new-followers-container">
               {newFollowersInfo}
             </div>
-            <div className="center container-header">Unfollowers ({this.state.unFollowers.length}) </div>
+            <div className="center container-header">Unfollowers ({unFollowers.length}) </div>
             <div className="followers-container unfollowers-container">
               {unFollowersInfo}
             </div>
@@ -150,5 +107,4 @@ export default class Followers extends React.Component {
         )
       }
     }
-  }
 }

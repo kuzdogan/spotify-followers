@@ -1,0 +1,23 @@
+.MainBar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.NavBarItem {
+    font-size: 30px;
+    margin: 6px;
+    padding: 4px;
+    display: inline;
+    background-color: #1DB954;
+}
+
+.NavBarItem:hover {
+    background-color: aqua;
+    color: black;
+}
+
+.theCurrent {
+    background-color: #1D75DE;
+    color: beige;
+}
