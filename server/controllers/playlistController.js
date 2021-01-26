@@ -1,6 +1,6 @@
 const { get } = require('axios');
 const PlayList = require('../entities/playlist');
-const accessToken = 'BQCys3B8lKPYlgca7sO1PLP_MvxlkIn_CS5Ne9Z-04v6sHHJQHIxKZZ2IRep97AT71lXZye2T7wkY3h_28kMfM759nThQZm9euVS3QnZSgsOjy3wNtsj_hLBIXTejJ31JthEQPM2zcr-NtUFfCfGAjhxdoiKBULR';
+const accessToken = 'BQDRl44kt2Oqximh9J-RPmMPUU01RdKd95RcbF6OUCnhyeJiv0lQndn9aOagg7Fr70wwDauippg7YhJ5a_VXkK6T1d8Q4mmJ8pHL81sitI3m7cRSp545CquLq4T04z8m3TY6QOeQVhC301B3FTaoVaK-1jxf4wc9LzQZEdQQBPKaS97X5YBS6_PCjoqYQrFGrEJFSkFHJYnRF2pmwQX_5Sc9iXGv3AtjAkPOSiXY0cprd4UMloKj5zFeCIiIJ_cBgymKbHCR_QuBSw--Slfk';
 const maximumLimit = 50;
 
 exports.getPlaylists = async function (req, res) {
@@ -10,9 +10,9 @@ exports.getPlaylists = async function (req, res) {
         return res.status(200).json(playlistResult);
     }
     catch (err) {
-        return err.response && err.response.status === 401 
-            ? res.status(401).json({message: "Unauthorized access"})
-            : res.status(500).json({message: "Unexpected error!", error: err});
+        return err.response && err.response.status === 401
+            ? res.status(401).json({ message: "Unauthorized access" })
+            : res.status(500).json({ message: "Unexpected error!", error: err });
     }
 }
 
