@@ -6,20 +6,15 @@ export default function Followers(){
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
-  // const [followers, setFollowers] = useState([]);
   const [newFollowers, setNewFollowers] = useState([]);
   const [unFollowers, setUnFollowers] = useState([]);
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState('');
 
- function handleUserIdChange(event){
-    setUserId(event.target.value);
-  }
-
   function getFollowersDif() {
     setIsLoading(true);
     if (!userId) {
-      throw new Error('Invalid user id.')
+      alert('Invalid user.');
     }
     let statusCode;
     fetch(`http://localhost:3000/user/${userId}/follower-unfollower-diff`)
@@ -46,30 +41,12 @@ export default function Followers(){
       })
   }
 
-  // function fetchFollowers(){
-  //   setIsLoading(true);
-  //   if (!userId || userId === '') {
-  //     throw new Error('Invalid user id.')
-  //   }
-  //   console.log('Fetching followers');
-  //   fetch(`http://localhost:3000/user/${userId}/followers`)
-  //     .then(res => {
-  //       if (res.status !== 200) {
-  //         setIsLoading(false);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then(resData => {
-  //       setFollowers(resData.followers);
-  //       setIsLoading(false);
-  //     })
-  // }
 
     if (isFirstLoad) {
       return (
         <div>
           <div>
-            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={userId} onChange={(e) => { handleUserIdChange(e) }} />
+            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={userId} onChange={(e) => { setUserId(e.target.value); }} />
             <button
               onClick={getFollowersDif}
             >
@@ -115,7 +92,7 @@ export default function Followers(){
         return (
           <div>
             <div>
-              <input className="spotify-user-id" id="spotify-user-id" type="text" value={userId} onChange={(e) => { handleUserIdChange(e) }} />
+              <input className="spotify-user-id" id="spotify-user-id" type="text" value={userId} onChange={(e) => { setUserId(e.target.value); }} />
               <button className="primary" onClick={getFollowersDif}> Follower Changes </button>
             </div>
             <div className="center container-header">Followers ({newFollowers.length}) </div>

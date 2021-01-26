@@ -5,19 +5,22 @@ export default function Playlists() {
 
     const [playlists, setPlaylists] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
     const [userId, setUserId] = useState('');
 
-    function handleUserIdChange(event){
-        setUserId(event.target.value);
-    }
 
     function fetchPlaylists() {
         if (!userId) {
-            throw new Error('Invalid user id.')
+            alert('Invalid user.');
         }
         fetch(`http://localhost:3000/playlist/${userId}`)
             .then(res => {
-                if (res.status !== 200) {
+                if (res.status === 200) {
+                    setIsLoaded(true);
+                    setHasError(false);
+                }
+                if(res.status === 401 || res.status === 500){
+                    setHasError(true);
                     setIsLoaded(true);
                 }
                 return res.json();
@@ -33,7 +36,7 @@ export default function Playlists() {
     return (
         <div>
           <div>
-            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={userId} onChange={(e) => { handleUserIdChange(e) }} />
+            <input className="spotify-user-id black" id="spotify-user-id" type="text" value={userId} onChange={(e) => {  setUserId(e.target.value); }} />
             <button
                 onClick={fetchPlaylists}
             >
@@ -45,7 +48,21 @@ export default function Playlists() {
           </div>
         </div>
     )
-  }
+  }else if(hasError){
+        return <div>
+            <div>
+                <input className="spotify-user-id black" id="spotify-user-id" type="text" value={userId} onChange={(e) => {  setUserId(e.target.value); }} />
+                <button
+                    onClick={fetchPlaylists}
+                >
+                    Get Playlists
+                </button>
+            </div>
+            <div>
+                There is an error to get playlists, please try again.
+            </div>
+        </div>
+    }
   else{
 
         const playlistComponents = playlists.map((playlist, i) => {
@@ -57,7 +74,7 @@ export default function Playlists() {
         return (
             <div>
                 <div>
-                    <input className="spotify-user-id" id="spotify-user-id" type="text" value={userId} onChange={(e) => { handleUserIdChange(e) }} />
+                    <input className="spotify-user-id" id="spotify-user-id" type="text" value={userId} onChange={(e) => {  setUserId(e.target.value); }} />
                     <button className="primary" onClick={fetchPlaylists}> Get Playlists </button>
                 </div>
                 <div className="center container-header">Playlists ({playlists.length}) </div>
