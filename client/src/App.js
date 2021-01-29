@@ -14,16 +14,13 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
 
-  function changeLoggedIn() {
-    setLoggedIn(prevState => !prevState);
-  }
-
   function handleSpotifyLogin() {
     let clientId = process.env.REACT_APP_CLIENT_ID;
+    let state = process.env.REACT_APP_STATE;
     let url = 'https://accounts.spotify.com/authorize';
-    // TODO: Add state query param
-    let requestUrl = `${url}?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3001/callback`;
-    window.open(requestUrl, 'popup', 'width=600,height=600')
+    let requestUrl = `${url}?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3001/callback&state=${state}`;
+    setLoggedIn(true);
+    window.open(requestUrl, 'popup', 'width=600,height=600');
 }
 
   return (
@@ -44,7 +41,7 @@ function App() {
       </Router>
       <div>
         <p>
-          {loggedIn ? "Do you wanna come inside ?" : "You are in !"}
+          {loggedIn ?  "Process started!" : "Do you wanna come inside ?" }
         </p>
         <button onClick={handleSpotifyLogin} >
           Login
