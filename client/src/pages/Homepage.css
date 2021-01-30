@@ -1,0 +1,78 @@
+.header-Spotify {
+    position: absolute;
+    width: 454px;
+    height: 57px;
+    left: 59px;
+    top: 343px;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 57px;
+    /* identical to box height */
+
+    text-align: center;
+
+    /* Text */
+
+    color: #F8F8F8;
+}
+
+.primary-button {
+    position: absolute;
+    left: 80px;
+    top: 454px;
+}
+
+.footer-primary {
+    position: absolute;
+    width: 449px;
+    height: 28px;
+    left: 495px;
+    top: 750px;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+
+    /* Text */
+
+    color: #F8F8F8;
+}
+
+.footer-secondary {
+    position: absolute;
+    width: 371px;
+    height: 28px;
+    left: 534px;
+    top: 801px;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+
+    /* Text */
+
+    color: #F8F8F8;
+}
+
+
+#entrance-images img {
+    position: absolute;
+    width: 784px;
+    height: 523px;
+    left: 533px;
+    top: 135px;
+    webkit-transition: opacity 1s ease-in-out;
+    -moz-transition: opacity 1s ease-in-out;
+    -o-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+}
+
+#entrance-images img.top:hover {
+    opacity: 0;
+}
+
+

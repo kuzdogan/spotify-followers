@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Follower from '../components/Follower';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
 export default function Followers(){
 
@@ -61,7 +62,9 @@ export default function Followers(){
     }
     else if (isLoading) {
       return (
-        <div>Loading</div>
+        <div>
+          <PacmanLoader color="#1DB954" size={50} css={"top:250px;"} />
+        </div>
       )
     }
     else {

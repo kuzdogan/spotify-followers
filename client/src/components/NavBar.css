@@ -5,19 +5,19 @@
 }
 
 .NavBarItem {
-    font-size: 30px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
     margin: 6px;
     padding: 4px;
     display: inline;
-    background-color: #1DB954;
+    color: rgba(248, 248, 248, 0.5);
 }
 
 .NavBarItem:hover {
-    background-color: aqua;
-    color: black;
+    color: #1DB954;
 }
 
 .theCurrent {
-    background-color: #1D75DE;
-    color: beige;
+    color: #1DB954;
 }
