@@ -3,7 +3,7 @@ import "./Homepage.css";
 import entranceImage from '../public/entrance-image.png';
 import entranceImage2 from '../public/entrance-image-2.png';
 
-export default function Homepage() {
+export default function Homepage({isLoggedIn}) {
 
     function handleSpotifyLogin() {
         let clientId = process.env.REACT_APP_CLIENT_ID;
@@ -13,6 +13,10 @@ export default function Homepage() {
         window.open(requestUrl, 'popup', 'width=600,height=600');
     }
 
+    console.log(isLoggedIn);
+    if(isLoggedIn){
+        return window.location.replace('/Followers');
+    }
 
     return (
         <div>

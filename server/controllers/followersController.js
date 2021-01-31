@@ -144,7 +144,7 @@ function requestFollowers(accessToken, userId) {
         }
         // }).then(response => response.data.profiles)
     }).then(response => {
-        return response.data.profiles.splice(0, 3) // Debug
+        return response.data.profiles.splice(0, 25) // Debug
     }).then(followers => {
         return followers.map(follower => {
             return new Follower({
