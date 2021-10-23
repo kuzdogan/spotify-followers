@@ -28,6 +28,21 @@
   color: #61dafb;
 }
 
+.primary-button{
+  background: #1DB954;
+  border-radius: 16px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 33px;
+  text-align: center;
+  width: 200px;
+  height: 48px;
+  /* Text */
+
+  color: #F8F8F8;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

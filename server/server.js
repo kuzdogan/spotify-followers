@@ -4,12 +4,11 @@ const cors = require('cors');
 const { connectToDB } = require('./mongoose');
 const followersRoutes = require('./routes/followersRoutes');
 const playlistsRoutes = require('./routes/playlistsRoutes');
+const authorizationRoutes = require('./routes/authorizationRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
 const DB_URI = "mongodb://localhost:27017/test";
-
-
 
 // ====== Connect Mongo ========
 connectToDB(DB_URI);
@@ -41,6 +40,7 @@ app.use(bodyParser.json());
 
 app.use('/user', followersRoutes);
 app.use('/playlist', playlistsRoutes);
+app.use('/authorize', authorizationRoutes);
 
 app.listen(port, () => {
   console.log('Express Listening at http://localhost:' + port);

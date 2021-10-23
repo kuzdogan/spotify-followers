@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Follower from '../components/Follower';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
 export default function Followers(){
 
@@ -61,7 +62,9 @@ export default function Followers(){
     }
     else if (isLoading) {
       return (
-        <div>Loading</div>
+        <div>
+          <PacmanLoader color="#1DB954" size={50} css={"top:250px;"} />
+        </div>
       )
     }
     else {
@@ -79,7 +82,7 @@ export default function Followers(){
           return <Follower key={i} user={follower} />
         })
 
-        const newFollowersInfo = newFollowerComponents.length > 0 ? <div className="center display-container"> {newFollowerComponents} </div> : 'There is no new follower. Keep rolling!';
+        const newFollowersInfo = newFollowerComponents.length > 0 ? <div className="center display-container" style={{flexWrap: 'wrap'}}> {newFollowerComponents} </div> : 'There is no new follower. Keep rolling!';
 
         unFollowers.forEach((unFollower, i) => {
           unFollowerComponents.push(
@@ -87,7 +90,7 @@ export default function Followers(){
           )
         })
 
-        const unFollowersInfo = unFollowerComponents.length > 0 ? <div className="center display-container"> {unFollowerComponents} </div> : 'There is no unfollower. You are so popular!';
+        const unFollowersInfo = unFollowerComponents.length > 0 ? <div className="center display-container" style={{flexWrap: 'wrap'}}> {unFollowerComponents} </div> : 'There is no unfollower. You are so popular!';
 
         return (
           <div>

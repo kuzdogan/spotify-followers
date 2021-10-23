@@ -1,12 +1,18 @@
-const { Router } = require('express');
-const followerController = require('../controllers/followersController');
+const { Router } = require("express");
+const followerController = require("../controllers/followersController");
 
 const routes = Router({ mergeParams: true }); // Merge to access parent params i.e. /reviews/:addr/:id
 
 //GET user/:userId/followers
-routes.get('/:userId/followers', followerController.getFollowers);
+routes.get(
+  "/:userId/current-followers",
+  followerController.getCurrentFollowers
+);
 
-//GET user/:userId/follower-unfollower-diff
-routes.get('/:userId/follower-unfollower-diff', followerController.getFollowersUnfollowers);
+//POST user/:userId/follower-diff
+routes.post(
+  "/:userId/follower-diff",
+  followerController.getFollowersUnfollowers
+);
 
 module.exports = routes;
